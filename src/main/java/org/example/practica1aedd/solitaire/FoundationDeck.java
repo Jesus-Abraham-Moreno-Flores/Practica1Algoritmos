@@ -2,7 +2,7 @@ package org.example.practica1aedd.solitaire;
 
 import org.example.practica1aedd.DeckOfCards.CartaInglesa;
 import org.example.practica1aedd.DeckOfCards.Palo;
-
+import org.example.practica1aedd.gui.Pila;
 import java.util.ArrayList;
 
 /**
@@ -14,17 +14,18 @@ import java.util.ArrayList;
  */
 public class FoundationDeck {
     Palo palo;
-    ArrayList<CartaInglesa> cartas = new ArrayList<>();
+    private Pila<CartaInglesa> cartas;
 
     public FoundationDeck(Palo palo) {
         this.palo = palo;
+        cartas = new Pila<>(13);
     }
 
     public FoundationDeck(CartaInglesa carta) {
         palo = carta.getPalo();
-        // solo agrega la carta si es un A
-        if (carta.getValorBajo() == 1) {
-            cartas.add(carta);
+        cartas = new Pila<>(13);
+        if(carta.getValorBajo() == 1){
+            cartas.push(carta);
         }
     }
 
@@ -37,25 +38,21 @@ public class FoundationDeck {
      * @return true si se pudo guardar la carta, false si no
      */
     public boolean agregarCarta(CartaInglesa carta) {
-        boolean agregado = false;
-        if (carta.tieneElMismoPalo(palo)) {
-            if (cartas.isEmpty()) {
-                if (carta.getValorBajo() == 1) {
-                    // si no hay cartas entonces la carta debe ser un A
-                    cartas.add(carta);
-                    agregado = true;
-                }
-            } else {
-                // si hay cartas entonces debe haber secuencia
-                CartaInglesa ultimaCarta = cartas.getLast();
-                if (ultimaCarta.getValorBajo() + 1 == carta.getValorBajo()) {
-                    // agregar la carta si el la siguiente a la última
-                    cartas.add(carta);
-                    agregado = true;
-                }
-            }
+        if(!sePuedeAgregar(carta)){
+            return false;
         }
-        return agregado;
+        cartas.push(carta);
+        return true;
+    }
+
+    public boolean sePuedeAgregar(CartaInglesa carta) {
+        if(!carta.tieneElMismoPalo(palo)){
+            return false;
+        }
+        if(cartas.pilaVacia()){
+            return carta.getValorBajo() == 1;
+        }
+        return cartas.peek().getValorBajo() + 1 == carta.getValorBajo();
     }
 
     /**
@@ -63,26 +60,16 @@ public class FoundationDeck {
      *
      * @return la carta que removió, null si estaba vacio
      */
-    CartaInglesa removerUltimaCarta() {
-        CartaInglesa ultimaCarta = null;
-        if (!cartas.isEmpty()) {
-            ultimaCarta = cartas.getLast();
-            cartas.remove(ultimaCarta);
-        }
-        return ultimaCarta;
+    public CartaInglesa removerUltimaCarta() {
+        return cartas.pop();
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        if (cartas.isEmpty()) {
-            builder.append("---");
-        } else {
-            for (CartaInglesa carta : cartas) {
-                builder.append(carta.toString());
-            }
+        if(cartas.pilaVacia()){
+            return "---";
         }
-        return builder.toString();
+        return cartas.peek().toString();
     }
 
     /**
@@ -90,7 +77,7 @@ public class FoundationDeck {
      * @return true hay al menos una carta, false no hay cartas
      */
     public boolean estaVacio() {
-        return cartas.isEmpty();
+        return cartas.pilaVacia();
     }
 
     /**
@@ -98,10 +85,6 @@ public class FoundationDeck {
      * @return última carta, null si no hay cartas
      */
     public CartaInglesa getUltimaCarta() {
-        CartaInglesa ultimaCarta = null;
-        if (!cartas.isEmpty()) {
-            ultimaCarta = cartas.getLast();
-        }
-        return ultimaCarta;
+        return cartas.peek();
     }
 }
