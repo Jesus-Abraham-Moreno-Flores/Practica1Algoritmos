@@ -191,6 +191,19 @@ public class TableauDeck {
         return ultimaCarta;
     }
 
+    public ArrayList<CartaInglesa> toList() {
+        ArrayList<CartaInglesa> lista = new ArrayList<>();
+        for(CartaInglesa carta : cartas) {
+            lista.add(carta);
+        }
+        return lista;
+    }
+
+    public void restaurar(ArrayList<CartaInglesa> lista) {
+        cartas.clear();
+        cartas.addAll(lista);
+    }
+
     public ArrayList<CartaInglesa> getCards() {
         return cartas;
     }

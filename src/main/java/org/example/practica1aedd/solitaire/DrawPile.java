@@ -103,7 +103,6 @@ public class DrawPile {
     public void recargar(ArrayList<CartaInglesa> cartasAgregar) {
         cartas = new Pila<>(52);
         for (CartaInglesa aCarta : cartasAgregar) {
-            aCarta.makeFaceDown();
             cartas.push(aCarta);
         }
     }

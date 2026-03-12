@@ -24,6 +24,22 @@
     -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.85), 10, 0.6, 0, 0);
 }
 
+.boton-deshacer {
+    -fx-background-color: #B71C1C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+.boton-deshacer:hover {
+    -fx-background-color: #D32F2F;
+}
+.boton-deshacer:disabled {
+    -fx-opacity: 0.4;
+}
+
 .tableau-col {
     -fx-min-width: 90px;
     -fx-pref-width: 90px;

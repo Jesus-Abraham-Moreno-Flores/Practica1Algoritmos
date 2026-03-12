@@ -72,6 +72,28 @@ public class FoundationDeck {
         return cartas.peek().toString();
     }
 
+    public ArrayList<CartaInglesa> toList() {
+        ArrayList<CartaInglesa> lista = new ArrayList<>();
+        Pila<CartaInglesa> temp = new Pila<>(13);
+        while(!cartas.pilaVacia()){
+            CartaInglesa carta = cartas.pop();
+            lista.add(carta);
+            temp.push(carta);
+        }
+        while(!temp.pilaVacia()){
+            cartas.push(temp.pop());
+        }
+        java.util.Collections.reverse(lista);
+        return lista;
+    }
+
+    public void restaurar(ArrayList<CartaInglesa> lista){
+        cartas = new Pila<>(13);
+        for(CartaInglesa carta : lista){
+            cartas.push(carta);
+        }
+    }
+
     /**
      * Determina si hay cartas en el Foundation.
      * @return true hay al menos una carta, false no hay cartas
